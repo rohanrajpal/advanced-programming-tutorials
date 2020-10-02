@@ -39,7 +39,7 @@ public class Database {
         }
     }
 
-    public void delete(String path,Object o1) throws NoProductException{
+    public void delete(String path,Object o1) throws ProductDoesNotExistException{
         if (o1.getClass() == getClass() || o1.getClass() == (new Admin()).getClass()){
             Category current=root;
             int i = 0;
@@ -50,7 +50,7 @@ public class Database {
                 Category temp = current.findName(crt);
                 if (temp == null) {
                     current = null;
-                    throw new NoProductException("Path Invalid");
+                    throw new ProductDoesNotExistException("Path Invalid");
                 } else if (i<values_split.length-1){
                     current = temp;
                 }
