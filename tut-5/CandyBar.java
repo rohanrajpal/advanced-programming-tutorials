@@ -11,8 +11,12 @@ public class CandyBar extends Prize{
         else if (type.equals("snickers")){
             this.setWeight(5);
         }
-        else{
+        else if (type.equals("five-star")){
             this.setWeight(7);
+        }
+        else{
+            System.err.println("Enter a valid type");
+            System.exit(0);
         }
     }
 
