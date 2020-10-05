@@ -21,7 +21,7 @@ public class SoftToy extends Prize{
     @Override
     public boolean equals(Object o1){
         if (o1 !=null && getClass() == o1.getClass()){
-            return true;
+            return super.equals(o1);
         }
         return false;
     }
