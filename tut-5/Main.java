@@ -50,7 +50,7 @@ public class Main {
                         continue;
                     }
 
-                    prev.put(new Pair(x, y), true); // if pair doesn't exit, insert it into the hashmap
+                    prev.put(new Pair(x, y), true); // if pair doesn't exist, insert it into the hashmap
                     if (org.checkpossible(x, y)) {
                         System.out.println("Guess the prize");
                         int pos = sc.nextInt();
