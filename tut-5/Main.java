@@ -2,6 +2,7 @@ import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.HashMap;
 
 public class Main {
     static Scanner sc = new Scanner(System.in);
@@ -12,7 +13,7 @@ public class Main {
 
         Organizer org = new Organizer();
         int n = takeIntInput();
-        ArrayList<Pair<Integer,Integer>> prev = new ArrayList<>();
+        HashMap<Pair<Integer,Integer>, Boolean> prev = new HashMap<>();
         Player PlArr[] = new Player[n];
         int permutyesno[]=new int[n];
         for (int i=0;i<n;i++){
@@ -41,19 +42,15 @@ public class Main {
                 for (int j = 0; j < 10; j++) {
                     System.out.println("Choose a coordinate");
 
-                    int x = takeIntInput(), y = takeIntInput(), fl = 0;
-                    for (int k = 0; k < prev.size(); k++) {
-                        if (prev.get(k).equals(new Pair(x, y))) {
-                            System.err.println("Can't input same coordinate again,enter again");
-                            j--;
-                            fl = 1;
-                            break;
-                        }
-                    }
-                    if (fl == 1) {
+                    int x = takeIntInput(), y = takeIntInput();
+
+                    if(prev.containsKey(new Pair(x, y))) // hashmap check, hashcode depends only on name, value
+                    	System.err.println("Can't input same coordinate again,enter again");
+                        j--;
                         continue;
                     }
-                    prev.add(new Pair(x, y));
+
+                    prev.put(new Pair(x, y), true); // if pair doesn't exit, insert it into the hashmap
                     if (org.checkpossible(x, y)) {
                         System.out.println("Guess the prize");
                         int pos = sc.nextInt();
