@@ -11,8 +11,12 @@ public class StatItems extends Prize {
         else if (type.equals("pencil")){
             this.setWeight(1);
         }
-        else{
+        else if (type.equals("eraser")){
             this.setWeight(3);
+        }
+        else{
+            System.err.println("Enter a valid type");
+            System.exit(0);
         }
     }
 
