@@ -44,7 +44,7 @@ public class Main {
 
                     int x = takeIntInput(), y = takeIntInput();
 
-                    if(prev.containsKey(new Pair(x, y))) // hashmap check, hashcode depends only on name, value
+                    if(prev.containsKey(new Pair(x, y))){ // hashmap check, hashcode depends only on name, value
                     	System.err.println("Can't input same coordinate again,enter again");
                         j--;
                         continue;
