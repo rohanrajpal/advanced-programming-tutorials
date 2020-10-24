@@ -6,8 +6,7 @@ public class Game {
     private ArrayList<ArrayList<Integer>> graph;
     private HashMap<Integer, Monster> Monster_map;
     private int visited[];
-    private static java.util.Scanner s = new java.util.Scanner(System.in);
-    ;
+    private static java.util.Scanner s = new java.util.Scanner(System.in);;
 
     public Game() {
         Hero_list = new ArrayList<>();
@@ -26,14 +25,14 @@ public class Game {
 
     public void New_User() {
         System.out.println("Enter Username");
-        //s.nextLine();
+        // s.nextLine();
         String name = s.nextLine();
         System.out.println("Choose Class");
         System.out.println("1) Warrior");
         System.out.println("2) Thief");
         System.out.println("3) Mage");
         System.out.println("4) Healer");
-        int choice = s.nextInt();
+        int choice = Integer.parseInt(s.nextLine());
         switch (choice) {
             case 1:
                 Hero_list.add(new Warrior(name));
@@ -47,6 +46,8 @@ public class Game {
             case 4:
                 Hero_list.add(new Healer(name));
                 break;
+            default:
+                System.out.println("give correct input");
         }
         System.out.println("User Creation done. Log in to play game . Exiting");
     }
@@ -104,7 +105,7 @@ public class Game {
     }
 
     public int choose_path(int start_pos) {
-        System.out.println("You are at location "+start_pos+" Choose path: ");
+        System.out.println("You are at location " + start_pos + " Choose path: ");
         int count = 1;
         int flag = 1;
         int temp_i = 10;
@@ -125,11 +126,11 @@ public class Game {
             choice_find.put(count, temp_i);
         }
         System.out.println("Enter -1 to exit");
-        int choice = s.nextInt();
+        int choice =  Integer.parseInt(s.nextLine());
         if (choice != count) {
             visited[start_pos] = 1;
         }
-        if(choice==-1){
+        if (choice == -1) {
             return -1;
         }
         return choice_find.get(choice);
@@ -148,21 +149,23 @@ public class Game {
             if (move_count >= 4 && hero.getSpecial_move_count() == move_count) {
                 System.out.println("3)Special Attack");
             }
-            int choice = s.nextInt();
+            int choice =  Integer.parseInt(s.nextLine());
             if (choice != 3 && move_count >= 4 && hero.getSpecial_move_count() == move_count) {
                 hero.setSpecial_move_count(hero.getSpecial_move_count() + 1);
-            } else if(choice==3){
+            } else if (choice == 3) {
                 hero.setSpecial_move_count(hero.getSpecial_move_count() + 4);
             }
             if (hero.getSpecial_power() == 0) {
                 if (choice == 1) {
                     System.out.println("You choose to attack");
                     monster.setHp(monster.getHp() - hero.getAttack());
-                    System.out.println("Your Hp: "+hero.getHp()+"/"+hero.getHp_limit()+"Monsters Hp :"+monster.getHp()+"/"+monster.getHp_limit());
+                    System.out.println("Your Hp: " + hero.getHp() + "/" + hero.getHp_limit() + "Monsters Hp :"
+                            + monster.getHp() + "/" + monster.getHp_limit());
                 } else if (choice == 2) {
                     System.out.println("You choose to defend");
                     def = hero.getDefense();
-                    System.out.println("Your Hp: "+hero.getHp()+"/"+hero.getHp_limit()+"Monsters Hp :"+monster.getHp()+"/"+monster.getHp_limit());
+                    System.out.println("Your Hp: " + hero.getHp() + "/" + hero.getHp_limit() + "Monsters Hp :"
+                            + monster.getHp() + "/" + monster.getHp_limit());
                 } else if (choice == 3) {
                     special_power_count = move_count;
                     System.out.println("Special power activated");
@@ -191,7 +194,8 @@ public class Game {
             }
             System.out.println("Monster attack!");
             hero.setHp(hero.getHp() - damage);
-            System.out.println("Your Hp: "+hero.getHp()+"/"+hero.getHp_limit()+"Monsters Hp :"+monster.getHp()+"/"+monster.getHp_limit());
+            System.out.println("Your Hp: " + hero.getHp() + "/" + hero.getHp_limit() + "Monsters Hp :" + monster.getHp()
+                    + "/" + monster.getHp_limit());
 
             if (hero.getHp() <= 0) {
                 monster.respawn();
@@ -202,15 +206,16 @@ public class Game {
         return 0;
     }
 
-    public void Load_game(Hero hero){
+    public void Load_game(Hero hero) {
         load_graph();
-        int flag=1;
-        int init_pos=10;
-        while(init_pos!=-1) {
-            flag=1;init_pos=10;
+        int flag = 1;
+        int init_pos = 10;
+        while (init_pos != -1) {
+            flag = 1;
+            init_pos = 10;
             while (flag == 1) {
                 init_pos = choose_path(init_pos);
-                if(init_pos==-1){
+                if (init_pos == -1) {
                     break;
                 }
                 visited[init_pos] = 0;
@@ -218,7 +223,7 @@ public class Game {
                     int result = fight(hero, Monster_map.get(init_pos));
                     if (result == 0) {
                         System.out.println("You have died start over");
-                        flag=0;
+                        flag = 0;
                     } else {
                         System.out.println("Fight won proceed to next location");
                     }
@@ -226,6 +231,7 @@ public class Game {
             }
         }
     }
+
     public void Existing_User(String name) {
         for (Hero i : Hero_list) {
             if (i.getUsername().equals(name)) {
