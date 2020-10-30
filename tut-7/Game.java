@@ -221,7 +221,7 @@ public class Game {
                         if (hero.getSpecial_power() == 0) {
                             if (choice == 1) {
                                 System.out.println("You choose to attack");
-                                monster.setHp(monster.getHp() - hero.getAttack());
+                                monster.setHp(Math.max(0, monster.getHp() - hero.getAttack()));
                                 System.out.println("Your Hp: " + hero.getHp() + "/" + hero.getHp_limit()
                                         + "Monsters Hp :" + monster.getHp() + "/" + monster.getHp_limit());
                             } else if (choice == 2) {
@@ -256,8 +256,8 @@ public class Game {
                             damage = damage - def;
                         }
                         System.out.println("Monster attack!");
-                        hero.setHp(hero.getHp() - damage);
-                        System.out.println("Your Hp: " + hero.getHp() + "/" + hero.getHp_limit() + "Monsters Hp :"
+                        hero.setHp(Math.max(0, hero.getHp() - damage));
+                        System.out.println("Your Hp: " + hero.getHp() + "/" + hero.getHp_limit() + " Monsters Hp :"
                                 + monster.getHp() + "/" + monster.getHp_limit());
 
                         if (hero.getHp() <= 0) {
