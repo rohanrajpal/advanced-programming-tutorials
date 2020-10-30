@@ -9,7 +9,7 @@ public class Warrior extends Hero{
         int def=super.special_power_fight(monster,choice);
         System.out.println("Performing special attack");
         if(choice==1){
-            monster.setHp(monster.getHp() - 5);
+            monster.setHp(Math.max(0,monster.getHp() - 5));
         } else if (choice == 2) {
             def +=5;
         }
