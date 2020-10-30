@@ -187,88 +187,64 @@ public class Game {
         int special_power_count = -10;
 
         while (flag == 1) {
-            boolean superCheck = true;
-            int choice = 0;
-            while (superCheck) {
-                boolean check = true;
-                while (check) {
-                    System.out.println("Choose move: ");
-                    System.out.println("1) Attack");
-                    System.out.println("2) Defense");
-                    if (move_count >= 4 && hero.getSpecial_move_count() == move_count) {
-                        System.out.println("3)Special Attack");
-                    }
-
-                    try {
-                        choice = Integer.parseInt(s.nextLine());
-                        check = false;
-                    } catch (NumberFormatException e) {
-                        System.out.println("Wrong Input. Give Integer Input.");
-                    }
+            System.out.println("Choose move: ");
+            System.out.println("1) Attack");
+            System.out.println("2) Defense");
+            if (move_count >= 4 && hero.getSpecial_move_count() == move_count) {
+                System.out.println("3)Special Attack");
+            }
+            int choice = Integer.parseInt(s.nextLine());
+            if (choice != 3 && move_count >= 4 && hero.getSpecial_move_count() == move_count) {
+                hero.setSpecial_move_count(hero.getSpecial_move_count() + 1);
+            } else if (choice == 3) {
+                hero.setSpecial_move_count(hero.getSpecial_move_count() + 4);
+            }
+            if (hero.getSpecial_power() == 0) {
+                if (choice == 1) {
+                    System.out.println("You choose to attack");
+                    monster.setHp(Math.max(0, monster.getHp() - hero.getAttack()));
+                    System.out.println("Your Hp: " + hero.getHp() + "/" + hero.getHp_limit() + "Monsters Hp :"
+                            + monster.getHp() + "/" + monster.getHp_limit());
+                } else if (choice == 2) {
+                    System.out.println("You choose to defend");
+                    def = hero.getDefense();
+                    System.out.println("Your Hp: " + hero.getHp() + "/" + hero.getHp_limit() + "Monsters Hp :"
+                            + monster.getHp() + "/" + monster.getHp_limit());
+                } else if (choice == 3) {
+                    special_power_count = move_count;
+                    System.out.println("Special power activated");
+                    hero.setSpecial_power(1);
                 }
-                if (!(choice > 3 || choice < 1)) {
+            }
+            if (hero.getSpecial_power() == 1) {
+                def = hero.special_power_fight(monster, choice);
+            }
+            if (monster.getHp() <= 0) {
+                hero.setXp(hero.getXp() + monster.getLvl() * 20);
+                hero.level_check();
+                monster.respawn();
+                hero.default_game();
+                return 1;
+            }
+            move_count++;
+            if (move_count - special_power_count == 3) {
+                special_power_count = -10;
+                hero.setSpecial_power(0);
+                System.out.println("Special power deactivated");
+            }
+            int damage = new Random().nextInt(monster.getHp() / 4);
+            if (damage - def >= 0) {
+                damage = damage - def;
+            }
+            System.out.println("Monster attack!");
+            hero.setHp(Math.max(0, hero.getHp() - damage));
+            System.out.println("Your Hp: " + hero.getHp() + "/" + hero.getHp_limit() + " Monsters Hp :"
+                    + monster.getHp() + "/" + monster.getHp_limit());
 
-                    if ((choice == 3 && !(move_count >= 4 && hero.getSpecial_move_count() == move_count))) {
-                        System.out.println("You can't use special power");
-
-                    } else {
-                        superCheck = false;
-                        if (choice != 3 && move_count >= 4 && hero.getSpecial_move_count() == move_count) {
-                            hero.setSpecial_move_count(hero.getSpecial_move_count() + 1);
-                        } else if (choice == 3) {
-                            hero.setSpecial_move_count(hero.getSpecial_move_count() + 4);
-                        }
-                        if (hero.getSpecial_power() == 0) {
-                            if (choice == 1) {
-                                System.out.println("You choose to attack");
-                                monster.setHp(Math.max(0, monster.getHp() - hero.getAttack()));
-                                System.out.println("Your Hp: " + hero.getHp() + "/" + hero.getHp_limit()
-                                        + "Monsters Hp :" + monster.getHp() + "/" + monster.getHp_limit());
-                            } else if (choice == 2) {
-                                System.out.println("You choose to defend");
-                                def = hero.getDefense();
-                                System.out.println("Your Hp: " + hero.getHp() + "/" + hero.getHp_limit()
-                                        + "Monsters Hp :" + monster.getHp() + "/" + monster.getHp_limit());
-                            } else if (choice == 3) {
-                                special_power_count = move_count;
-                                System.out.println("Special power activated");
-                                hero.setSpecial_power(1);
-                            }
-                        }
-                        if (hero.getSpecial_power() == 1) {
-                            def = hero.special_power_fight(monster, choice);
-                        }
-                        if (monster.getHp() <= 0) {
-                            hero.setXp(hero.getXp() + monster.getLvl() * 20);
-                            hero.level_check();
-                            monster.respawn();
-                            hero.default_game();
-                            return 1;
-                        }
-                        move_count++;
-                        if (move_count - special_power_count == 3) {
-                            special_power_count = -10;
-                            hero.setSpecial_power(0);
-                            System.out.println("Special power deactivated");
-                        }
-                        int damage = new Random().nextInt(monster.getHp() / 4);
-                        if (damage - def >= 0) {
-                            damage = damage - def;
-                        }
-                        System.out.println("Monster attack!");
-                        hero.setHp(Math.max(0, hero.getHp() - damage));
-                        System.out.println("Your Hp: " + hero.getHp() + "/" + hero.getHp_limit() + " Monsters Hp :"
-                                + monster.getHp() + "/" + monster.getHp_limit());
-
-                        if (hero.getHp() <= 0) {
-                            monster.respawn();
-                            hero.default_game();
-                            return 0;
-                        }
-                    }
-                } else {
-                    System.out.println("Wrong option. Please choose from available options.");
-                }
+            if (hero.getHp() <= 0) {
+                monster.respawn();
+                hero.default_game();
+                return 0;
 
             }
         }
