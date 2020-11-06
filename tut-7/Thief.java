@@ -11,7 +11,7 @@ public class Thief extends Hero {
         if(choice==3){
             System.out.println("Performing special attack");
             int temp= (int)(0.3* monster.getHp());
-            monster.setHp(monster.getHp() - temp);
+            monster.setHp(Math.max(0,monster.getHp() - temp));
             this.setHp(this.getHp() + temp);
             System.out.println("Your Hp: "+this.getHp()+"/"+this.getHp_limit()+"Monsters Hp :"+monster.getHp()+"/"+monster.getHp_limit());
         }

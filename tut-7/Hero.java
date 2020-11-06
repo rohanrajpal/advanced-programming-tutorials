@@ -24,7 +24,7 @@ public class Hero extends Character{
         int def=0;
             if(choice==1){
                 System.out.println("You choose to attack");
-                monster.setHp(monster.getHp() - this.getAttack());
+                monster.setHp(Math.max(0,monster.getHp() - this.getAttack()));
                 System.out.println("Your Hp: "+this.getHp()+"/"+this.getHp_limit()+"Monsters Hp :"+monster.getHp()+"/"+monster.getHp_limit());
             } else if (choice == 2) {
                 System.out.println("You choose to defend");
